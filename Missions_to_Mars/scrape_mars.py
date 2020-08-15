@@ -86,15 +86,12 @@ def mars_news_scrape():
     url='https://twitter.com/marswxreport?lang=en'
     browser.visit(url)
     html = browser.html
-    #mars_weather = soup.find('div', class_='js-tweet-text-container').text.split('\n')[1]    
-    mars_weather = soup.find(text=re.compile('InSight'))
     
-    #parse HTML with beautiful soup
-    #mars_weather = soup.find_all('span')
-    #for i in range(len(mars_weather)):
-    #    if ("InSight" in mars_weather[i].text):
-    #        mars_weather = mars_weather[i].text
-    #   break
+    mars_weather = soup.find_all('span')
+    for i in range(len(mars_weather)):
+        if ("InSight" in mars_weather[i].text):
+            mars_weather = mars_weather[i].text
+        break
 
 
 # Store data in a dictionary
