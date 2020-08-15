@@ -93,6 +93,8 @@ def mars_news_scrape():
             mars_weather = mars_weather[i].text
         break
 
+    mars_weather=soup.find('script', 'src').text
+    
 
 # Store data in a dictionary
     mars_data= {
