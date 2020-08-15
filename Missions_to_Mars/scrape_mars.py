@@ -25,8 +25,6 @@ def mars_news_scrape():
     # Extract title text
     news_title = soup.find_all("div", class_ = "content_title")[1].a.text
     news_p = soup.find("div", class_ = "article_teaser_body").text 
-	
-    
     
     #Visit Nasa's JPL Mars Space url  using splinter module
     jplNasa_url='https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
@@ -38,7 +36,20 @@ def mars_news_scrape():
     main_url ='https://www.jpl.nasa.gov'
     img_url = soup.find_all('a', class_='fancybox')[0].get('data-fancybox-href').strip()
     full_image_url = main_url + img_url
-	 
+
+    #Visit the Mars Weather twitter account
+    browser = init_browser()
+    url = "https://twitter.com/marswxreport?lang=en"
+    browser.visit(url)
+    # Scrape page into soup and print it:
+    html = browser.html
+    soup = bs (html, "html.parser")
+    mars_weather_all = soup.find_all('span')
+    for i in range(len(mars_weather_all)):
+        if ("InSight" in mars_weather_all[i].text):
+            mars_weather = mars_weather_all[i].text
+            print(mars_weather)
+            break   	 
 
     # #### Mars Facts
     # URL of page to be scraped
@@ -80,21 +91,6 @@ def mars_news_scrape():
         img_data=dict({'title':title, 'img_url':hemisphere_img_url})
         hemisphere_img_urls.append(img_data)
 
-
-        
-    #Visit the Mars Weather twitter account
-    url='https://twitter.com/marswxreport?lang=en'
-    browser.visit(url)
-    html = browser.html
-    
-    mars_weather = soup.find_all('span')
-    for i in range(len(mars_weather)):
-        if ("InSight" in mars_weather[i].text):
-            mars_weather = mars_weather[i].text
-        break
-
-    mars_weather=soup.find('script', 'src').text
-    
 
 # Store data in a dictionary
     mars_data= {
